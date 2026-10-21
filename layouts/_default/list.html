@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{- if .Params.blocks }}
+    {{ partial "content-blocks.html" .Params.blocks }}
+  {{- end }}
+  <div class="container prose">
+    {{- if not .Params.blocks }}
+    <h1>{{ .Title }}</h1>
+    {{- end }}
+    {{ .Content }}
+    <ul class="post-list">
+      {{- range .Pages }}
+      <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <span class="post-meta">{{ .Date.Format "2 January 2006" }}</span>
+        {{- with .Description }}
+        <p>{{ . }}</p>
+        {{- end }}
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+{{ end }}

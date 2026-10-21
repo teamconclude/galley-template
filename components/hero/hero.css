@@ -1,0 +1,33 @@
+.c-hero {
+  padding: 4rem 0;
+  background: var(--color-tint);
+}
+
+.c-hero-inner {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.c-hero h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.c-hero-lead {
+  font-size: 1.2rem;
+  color: var(--color-muted);
+}
+
+.c-hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+@media (min-width: 48rem) {
+  .c-hero-with-image .c-hero-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}

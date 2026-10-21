@@ -1,0 +1,16 @@
+<section class="c-hero{{ if .image }} c-hero-with-image{{ end }}">
+  <div class="container c-hero-inner">
+    <div class="c-hero-text">
+      <h1>{{ .title }}</h1>
+      {{- with .text }}
+      <div class="c-hero-lead">{{ page.RenderString (dict "display" "block") . }}</div>
+      {{- end }}
+      {{- with .buttons }}
+      {{ partial "component.html" . }}
+      {{- end }}
+    </div>
+    {{- with .image }}
+    <img class="c-hero-image" src="{{ . | relURL }}" alt="">
+    {{- end }}
+  </div>
+</section>

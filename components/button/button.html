@@ -1,0 +1,2 @@
+<a class="c-button c-button-{{ .style | default "primary" }}" href="{{ .url | default "#" }}"
+  {{- if .newTab }} target="_blank" rel="noopener"{{ end }}>{{ .label }}</a>

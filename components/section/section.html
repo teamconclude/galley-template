@@ -1,0 +1,17 @@
+<section class="c-section c-section-{{ .background | default "white" }}">
+  <div class="container prose">
+    {{- with .title }}
+    <h2>{{ . }}</h2>
+    {{- end }}
+    {{- with .body }}
+    {{ page.RenderString (dict "display" "block") . }}
+    {{- end }}
+    {{- with .points }}
+    <ul class="c-section-points">
+      {{- range . }}
+      <li>{{ . }}</li>
+      {{- end }}
+    </ul>
+    {{- end }}
+  </div>
+</section>

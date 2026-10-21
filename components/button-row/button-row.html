@@ -1,0 +1,5 @@
+<div class="c-button-row c-button-row-{{ .alignment | default "left" }}">
+  {{- range .buttons }}
+  {{ partial "component.html" . }}
+  {{- end }}
+</div>

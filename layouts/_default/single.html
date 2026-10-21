@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{- if .Params.blocks }}
+    {{ partial "content-blocks.html" .Params.blocks }}
+  {{- end }}
+  {{- if or .Content (not .Params.blocks) }}
+  <article class="container prose">
+    <h1>{{ .Title }}</h1>
+    {{- if eq .Section "blog" }}
+    <p class="post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+      {{- with .Params.authors }} · {{ delimit . ", " " and " }}{{ end }}
+    </p>
+    {{- end }}
+    {{ .Content }}
+  </article>
+  {{- end }}
+{{ end }}

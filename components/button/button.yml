@@ -1,0 +1,22 @@
+label: Button
+description: A link styled as a button. Place it in a button row.
+standalone: false
+fields:
+  label:
+    type: text
+    label: Label
+    placeholder: What the button says
+  url:
+    type: url
+    label: Link
+    placeholder: /about/ or https://…
+  style:
+    type: select
+    label: Style
+    options: [primary, secondary]
+    default: primary
+    required: true
+  newTab:
+    type: boolean
+    label: Open in a new tab
+    default: false

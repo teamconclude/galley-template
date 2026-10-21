@@ -1,0 +1,9 @@
+{{- /* Renders one block with the partial of the component it names:
+       components/<name>/<name>.html. Used for nested blocks too. */ -}}
+{{- $name := .component -}}
+{{- $path := printf "components/%s/%s.html" $name $name -}}
+{{- if templates.Exists (printf "partials/%s" $path) -}}
+  {{ partial $path . }}
+{{- else -}}
+  {{- errorf "No template for component %q: add components/%s/%s.html" $name $name $name -}}
+{{- end -}}

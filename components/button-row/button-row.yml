@@ -1,0 +1,14 @@
+label: Button row
+description: One or more buttons side by side.
+standalone: false
+fields:
+  alignment:
+    type: select
+    label: Alignment
+    options: [left, center, right]
+    default: left
+    required: true
+  buttons:
+    type: blocks
+    label: Buttons
+    components: [button]

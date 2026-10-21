@@ -1,0 +1,27 @@
+.c-button {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.c-button-primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.c-button-primary:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+}
+
+.c-button-secondary {
+  background: transparent;
+  color: var(--color-accent);
+}
+
+.c-button-secondary:hover {
+  background: var(--color-bg);
+}

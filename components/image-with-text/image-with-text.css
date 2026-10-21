@@ -1,0 +1,33 @@
+.c-image-with-text {
+  padding: 3.5rem 0;
+}
+
+.c-image-with-text-inner {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.c-image-with-text img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.c-image-with-text-link {
+  font-weight: 600;
+}
+
+@media (min-width: 48rem) {
+  .c-image-with-text-inner {
+    grid-template-columns: var(--image-width) 1fr;
+  }
+
+  .c-image-with-text-right .c-image-with-text-inner {
+    grid-template-columns: 1fr var(--image-width);
+  }
+
+  .c-image-with-text-right img {
+    order: 2;
+  }
+}

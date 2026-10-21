@@ -1,0 +1,24 @@
+.c-section {
+  padding: 3.5rem 0;
+}
+
+.c-section-tint {
+  background: var(--color-tint);
+}
+
+.c-section-dark {
+  background: var(--color-dark);
+  color: #f3f4f6;
+}
+
+.c-section-dark a {
+  color: #93c5fd;
+}
+
+.c-section-points {
+  padding-left: 1.25rem;
+}
+
+.c-section-points li {
+  margin: 0.25rem 0;
+}

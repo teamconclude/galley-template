@@ -1,0 +1,146 @@
+/* The site's stylesheet. Hugo bundles it with css.Build, which inlines the
+   imports below. Each component's styles live next to its template in
+   components/<name>/<name>.css; add an import here for a new one. */
+@import "components/hero/hero.css";
+@import "components/button-row/button-row.css";
+@import "components/button/button.css";
+@import "components/section/section.css";
+@import "components/image-with-text/image-with-text.css";
+@import "components/faq/faq.css";
+
+:root {
+  --color-text: #1f2937;
+  --color-muted: #4b5563;
+  --color-bg: #ffffff;
+  --color-tint: #f3f6fa;
+  --color-dark: #1f2937;
+  --color-border: #e5e7eb;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1d4ed8;
+  --radius: 6px;
+  --max-width: 68rem;
+  --header-height: 3.75rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: var(--header-height);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-accent);
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.25;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* Running text: a comfortable line length. */
+.prose {
+  max-width: 46rem;
+}
+
+article.prose {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* Header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+}
+
+.site-title {
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.site-nav a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+/* Blog */
+
+.post-meta {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+}
+
+.post-list li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.post-list li > a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+.post-list p {
+  margin: 0.25rem 0 0;
+}
+
+/* Footer */
+
+.site-footer {
+  padding: 2rem 0;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+}

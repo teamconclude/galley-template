@@ -1,0 +1,19 @@
+label: Hero
+description: The large opening section of a page, with a heading, text, an image and buttons.
+fields:
+  title:
+    type: text
+    label: Heading
+    placeholder: The page's main message
+  text:
+    type: markdown
+    label: Text
+    placeholder: A sentence or two that expands on the heading
+  image:
+    type: image
+    label: Image
+    help: Shown beside the text on wide screens, above it on phones.
+  buttons:
+    type: block
+    component: button-row
+    label: Buttons

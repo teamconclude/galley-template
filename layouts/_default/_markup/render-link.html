@@ -1,0 +1,7 @@
+{{- /* Links titled "NewTab", as in [Pricing](/pricing/ "NewTab"), open in a new
+       tab. Galley writes that title; it is not shown to readers. */ -}}
+{{- $newTab := eq .Title "NewTab" -}}
+<a href="{{ .Destination | safeURL }}"
+  {{- with and (not $newTab) .Title }} title="{{ . }}"{{ end }}
+  {{- if $newTab }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>
+{{- /* No trailing newline */ -}}

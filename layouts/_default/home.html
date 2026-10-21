@@ -1,0 +1,7 @@
+{{ define "main" }}
+  {{- /* The home page is built from blocks in its frontmatter. */ -}}
+  {{ partial "content-blocks.html" .Params.blocks }}
+  {{- with .Content }}
+  <div class="container prose">{{ . }}</div>
+  {{- end }}
+{{ end }}

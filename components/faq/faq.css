@@ -1,0 +1,22 @@
+.c-faq {
+  padding: 3.5rem 0;
+}
+
+.c-faq-intro {
+  white-space: pre-line;
+  color: var(--color-muted);
+}
+
+.c-faq-entry {
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 0;
+}
+
+.c-faq-entry summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.c-faq-entry[open] summary {
+  margin-bottom: 0.5rem;
+}

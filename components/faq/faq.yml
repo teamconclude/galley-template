@@ -1,0 +1,20 @@
+label: FAQ
+description: Questions and answers that open when clicked.
+fields:
+  title:
+    type: text
+    label: Heading
+    default: Frequently asked questions
+  intro:
+    type: textarea
+    label: Introduction
+    placeholder: Plain text shown under the heading
+  entries:
+    type: list
+    label: Questions
+    fields:
+      question:
+        type: text
+        placeholder: The question, as a reader would ask it
+      answer:
+        type: markdown

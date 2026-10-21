@@ -1,0 +1,20 @@
+label: Section
+description: A heading with Markdown text and an optional list of key points.
+fields:
+  title:
+    type: text
+    label: Heading
+    placeholder: What this section is about
+  body:
+    type: markdown
+    label: Text
+  points:
+    type: list
+    label: Key points
+    help: Short phrases, shown as a list after the text.
+  background:
+    type: select
+    label: Background
+    options: [white, tint, dark]
+    default: white
+    required: true

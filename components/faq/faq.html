@@ -1,0 +1,16 @@
+<section class="c-faq">
+  <div class="container prose">
+    {{- with .title }}
+    <h2>{{ . }}</h2>
+    {{- end }}
+    {{- with .intro }}
+    <p class="c-faq-intro">{{ . }}</p>
+    {{- end }}
+    {{- range .entries }}
+    <details class="c-faq-entry">
+      <summary>{{ .question }}</summary>
+      {{ page.RenderString (dict "display" "block") (.answer | default "") }}
+    </details>
+    {{- end }}
+  </div>
+</section>

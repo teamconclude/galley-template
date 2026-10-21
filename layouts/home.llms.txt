@@ -1,0 +1,19 @@
+{{- /* /llms.txt (llmstxt.org), from data/llms.yaml. Titles and descriptions
+       come from the pages, links go to their Markdown renditions. */ -}}
+{{- $llms := hugo.Data.llms -}}
+# {{ $llms.title | default site.Title }}
+{{ with $llms.summary }}
+> {{ . }}
+{{ end }}
+{{- with $llms.intro }}
+{{ . }}
+{{ end }}
+{{- range $llms.sections }}
+## {{ .label }}
+{{ $pages := slice -}}
+{{- range .pages }}{{ with site.GetPage . }}{{ $pages = $pages | append . }}{{ else }}{{ warnf "llms.txt: no page %q" . }}{{ end }}{{ end -}}
+{{- with .section }}{{ with site.GetPage . }}{{ $pages = $pages | append .RegularPages }}{{ end }}{{ end -}}
+{{- range $pages }}
+- [{{ .Title }}]({{ (.OutputFormats.Get "markdown").RelPermalink }}){{ with .Description }}: {{ . }}{{ end }}
+{{- end }}
+{{ end -}}

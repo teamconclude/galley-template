@@ -1,0 +1,14 @@
+# The text of /llms.txt (see llmstxt.org), rendered by layouts/home.llms.txt.
+# List pages by path, or a whole section; their titles and descriptions are
+# read from the pages themselves.
+title: My site
+summary: A small example site, built with Hugo and edited with Galley.
+intro: |-
+  Every page is also available as Markdown: add `index.html.md` to its URL.
+sections:
+  - label: Pages
+    pages:
+      - /
+      - /about
+  - label: Blog
+    section: blog

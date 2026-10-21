@@ -1,0 +1,6 @@
+{{- /* Renders a page's blocks. Galley counts the marker comments to scroll its
+       preview to the block being edited; safeHTML keeps Hugo from removing them. */ -}}
+{{- range . }}
+  {{ "<!--galley-block-->" | safeHTML }}
+  {{ partial "component.html" . }}
+{{- end }}

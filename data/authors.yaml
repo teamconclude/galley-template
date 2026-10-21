@@ -1,0 +1,5 @@
+# Authors for blog posts. Galley offers these names in a post's `authors` field.
+- name: Jordan Lee
+  role: Editor
+- name: Sam Rivera
+  role: Writer

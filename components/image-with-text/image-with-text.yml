@@ -1,0 +1,36 @@
+label: Image with text
+description: An image beside a block of text, with an optional link.
+fields:
+  image:
+    type: image
+    label: Image
+  alt:
+    type: text
+    label: Image description
+    placeholder: What the image shows
+    help: Read out by screen readers. Leave empty for a purely decorative image.
+  text:
+    type: markdown
+    label: Text
+  imageSide:
+    type: select
+    label: Image side
+    options: [left, right]
+    default: left
+    required: true
+  width:
+    type: number
+    label: Image width (%)
+    help: The share of the row the image takes on wide screens, from 20 to 80.
+    default: 50
+  link:
+    type: object
+    label: Link
+    help: Shown after the text when it has a label and an address.
+    fields:
+      label:
+        type: text
+        placeholder: Read more
+      url:
+        type: url
+        placeholder: /about/

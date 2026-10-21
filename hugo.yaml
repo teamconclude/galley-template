@@ -1,0 +1,70 @@
+# Site configuration. Galley reads the title, the output formats and the
+# components mount from here; see README.md.
+baseURL: /
+title: My site
+locale: en-US
+enableGitInfo: true
+
+markup:
+  goldmark:
+    renderer:
+      # Lets Markdown fields and pages contain raw HTML.
+      unsafe: true
+
+menus:
+  main:
+    - name: Home
+      pageRef: /
+      weight: 10
+    - name: About
+      pageRef: /about
+      weight: 20
+    - name: Blog
+      pageRef: /blog
+      weight: 30
+
+outputFormats:
+  # Every page also gets a Markdown rendition next to its HTML, for language
+  # models and for Galley's Markdown preview: /about/index.html.md beside
+  # /about/index.html, following llmstxt.org.
+  markdown:
+    mediaType: text/markdown
+    baseName: index.html
+    isPlainText: true
+    permalinkable: false
+  # /llms.txt, written from data/llms.yaml by layouts/home.llms.txt.
+  llms:
+    mediaType: text/plain
+    baseName: llms
+    isPlainText: true
+    notAlternative: true
+
+outputs:
+  home: [html, rss, markdown, llms]
+  section: [html, rss, markdown]
+  page: [html, markdown]
+
+# No tag or category pages.
+disableKinds: [taxonomy, term]
+
+# Declaring mounts replaces Hugo's defaults, so every folder the site uses is
+# listed. The last two make each component's template a partial and its
+# stylesheet an asset.
+module:
+  mounts:
+    - source: content
+      target: content
+    - source: layouts
+      target: layouts
+    - source: static
+      target: static
+    - source: assets
+      target: assets
+    - source: data
+      target: data
+    - source: components
+      target: layouts/partials/components
+      files: ["**/*.html", "**/*.md"]
+    - source: components
+      target: assets/components
+      files: ["**/*.css"]

@@ -1,0 +1,18 @@
+{{- $width := .width | default 50 | int -}}
+{{- if lt $width 20 }}{{ $width = 20 }}{{ else if gt $width 80 }}{{ $width = 80 }}{{ end -}}
+<section class="c-image-with-text c-image-with-text-{{ .imageSide | default "left" }}"
+  style="--image-width: {{ $width }}%">
+  <div class="container c-image-with-text-inner">
+    {{- with .image }}
+    <img src="{{ . | relURL }}" alt="{{ $.alt }}">
+    {{- end }}
+    <div class="c-image-with-text-text">
+      {{- with .text }}
+      {{ page.RenderString (dict "display" "block") . }}
+      {{- end }}
+      {{- with .link }}{{ if and .label .url }}
+      <p><a class="c-image-with-text-link" href="{{ .url }}">{{ .label }} →</a></p>
+      {{- end }}{{ end }}
+    </div>
+  </div>
+</section>
