@@ -49,7 +49,7 @@ disableKinds: [taxonomy, term]
 
 # Declaring mounts replaces Hugo's defaults, so every folder the site uses is
 # listed. The last two make each component's template a partial and its
-# stylesheet an asset.
+# stylesheet and script assets.
 module:
   mounts:
     - source: content
@@ -67,4 +67,4 @@ module:
       files: ["**/*.html", "**/*.md"]
     - source: components
       target: assets/components
-      files: ["**/*.css"]
+      files: ["**/*.css", "**/*.js"]

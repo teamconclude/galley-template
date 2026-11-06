@@ -1,0 +1,26 @@
+#!/bin/sh
+# Checks that every image a page or data file names, as /images/…, is in static/images/,
+# in frontmatter fields and in the text alike.
+#
+#   scripts/check-images
+#
+# Exits 1, listing the missing ones and where they are named, when any is missing.
+set -e
+cd "$(dirname "$0")/.."
+missing=0
+# A reference starts a word and ends in a file name, so prose naming the folder,
+# such as static/images/, is not one.
+refs=$(grep -rhoE '(^|[^A-Za-z0-9_.-])/images/[A-Za-z0-9_./%-]+\.[A-Za-z0-9]+' content data 2>/dev/null |
+  sed -E 's|^[^/]+||' | sort -u)
+for ref in $refs; do
+  if [ ! -f "static$ref" ]; then
+    grep -rnF "$ref" content data | sed "s|\$|  (no static$ref)|" | cut -c1-200
+    missing=$((missing + 1))
+  fi
+done
+if [ "$missing" -gt 0 ]; then
+  echo
+  echo "$missing image(s) missing from static/images/."
+  exit 1
+fi
+echo "Every image is there."

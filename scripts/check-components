@@ -1,0 +1,134 @@
+#!/bin/sh
+# Checks that every component keeps to itself (see "Components keep to themselves" in
+# README.md):
+#
+# - components/<name>/ holds <name>.yml, which Galley's form is built from, and
+#   <name>.html, the template.
+# - <name>.css only styles the component's own markup. All component styles end up in
+#   one stylesheet, so a class one component defines would style every other one too.
+#   Every selector at the top level, or inside a top-level @media, @supports,
+#   @container or @layer, must name a class, id or element <name> or c-<name>, alone
+#   or followed by "-"; animations are named the same way. Rules nested inside those
+#   may use short names.
+# - <name>.html sets no on…= handlers: each component script runs in a scope of its
+#   own, so the page cannot call into it. The script attaches its listeners instead.
+#
+#   scripts/check-components [components]
+#
+# Plain sh and awk, so it runs wherever Galley does. Exits 1 when something is wrong.
+set -e
+cd "$(dirname "$0")/.."
+root=${1:-components}
+problems=0
+
+for dir in "$root"/*/; do
+  name=$(basename "$dir")
+  for part in yml html; do
+    if [ ! -f "$dir$name.$part" ]; then
+      echo "$dir$name.$part is missing"
+      problems=$((problems + 1))
+    fi
+  done
+  if [ -f "$dir$name.html" ] && grep -nE '[[:space:]]on[a-z]+=' "$dir$name.html" >/dev/null; then
+    grep -nE '[[:space:]]on[a-z]+=' "$dir$name.html" | sed "s|^|$dir$name.html:|; s|$|  (attach the listener from $name.js)|"
+    problems=$((problems + 1))
+  fi
+  [ -f "$dir$name.css" ] || continue
+  found=$(awk -v name="$name" -v file="$dir$name.css" '
+    function trim(s) { gsub(/^[ \t\n]+|[ \t\n]+$/, "", s); return s }
+    function owns(t) {
+      return t == name || t == "c-" name || index(t, name "-") == 1 || index(t, "c-" name "-") == 1
+    }
+    function report(line, message) { print file ":" line ": " message; count++ }
+    # A selector list passes when each selector names something of the component.
+    function selectors(head, line,    parts, n, k, s, t, mine) {
+      n = split(head, parts, ",")
+      for (k = 1; k <= n; k++) {
+        s = trim(parts[k])
+        if (s == "") continue
+        gsub(/\[[^]]*\]/, " ", s)
+        gsub(/::?[A-Za-z_-]+(\([^)]*\))?/, " ", s)
+        mine = 0
+        while (match(s, /[.#]?-?[A-Za-z_][A-Za-z0-9_-]*/)) {
+          t = substr(s, RSTART, RLENGTH)
+          sub(/^[.#]/, "", t)
+          if (owns(t)) { mine = 1; break }
+          s = substr(s, RSTART + RLENGTH)
+        }
+        if (!mine) report(line, trim(parts[k]) " names nothing called " name "… or c-" name "…")
+      }
+    }
+    { src = src $0 "\n" }
+    END {
+      # Comments become spaces, keeping the line numbers; strings stay as they are.
+      n = length(src)
+      for (i = 1; i <= n; i++) {
+        c = substr(src, i, 1)
+        if (c == "/" && substr(src, i + 1, 1) == "*") {
+          j = index(substr(src, i + 2), "*/")
+          end = j ? i + j + 2 : n
+          comment = substr(src, i, end - i + 1)
+          gsub(/[^\n]/, " ", comment)
+          text = text comment
+          i = end
+        } else if (c == "\"" || c == "\047") {
+          j = index(substr(src, i + 1), c)
+          end = j ? i + j : n
+          text = text substr(src, i, end - i + 1)
+          i = end
+        } else text = text c
+      }
+      # Walks the rules; the heads of those at the top level, or directly inside a
+      # top-level grouping rule, are checked.
+      depth = 0; open[0] = 1; head = ""; at = 0; line = 1
+      n = length(text)
+      for (i = 1; i <= n; i++) {
+        c = substr(text, i, 1)
+        if (c == "{") {
+          grouping = 0
+          if (open[depth]) {
+            h = trim(head)
+            if (h ~ /^@(media|supports|container|layer)([ \t\n(]|$)/) grouping = 1
+            else if (h ~ /^@keyframes[ \t\n]/) {
+              anim = h
+              sub(/^@keyframes[ \t\n]+/, "", anim)
+              sub(/[ \t\n].*/, "", anim)
+              if (!owns(anim)) report(at, "animation " anim " is not named after the component")
+            } else if (h ~ /^@/) {
+              rule = h
+              sub(/[ \t\n(].*/, "", rule)
+              report(at, rule " is not allowed at the top level")
+            } else selectors(h, at)
+          }
+          depth++; open[depth] = grouping; head = ""; at = 0
+        } else if (c == "}") {
+          depth--; head = ""; at = 0
+        } else if (c == ";") {
+          h = trim(head)
+          if (depth == 0 && h != "") {
+            rule = h
+            sub(/[ \t\n(].*/, "", rule)
+            report(at, rule " is not allowed at the top level")
+          }
+          head = ""; at = 0
+        } else {
+          if (at == 0 && c !~ /[ \t\n]/) at = line
+          head = head c
+        }
+        if (c == "\n") line++
+      }
+      exit (count > 0)
+    }
+  ' "$dir$name.css") || true
+  if [ -n "$found" ]; then
+    echo "$found"
+    problems=$((problems + $(echo "$found" | wc -l)))
+  fi
+done
+
+if [ "$problems" -gt 0 ]; then
+  echo
+  echo "$problems problem(s) in the components."
+  exit 1
+fi
+echo "Every component keeps to itself."

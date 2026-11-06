@@ -7,7 +7,7 @@
     <p class="c-faq-intro">{{ . }}</p>
     {{- end }}
     {{- range .entries }}
-    <details class="c-faq-entry">
+    <details class="c-faq-entry" id="{{ .question | anchorize }}">
       <summary>{{ .question }}</summary>
       {{ page.RenderString (dict "display" "block") (.answer | default "") }}
     </details>

@@ -1,0 +1,26 @@
+#!/bin/sh
+# The site's checks: the components keep to themselves, every image a page names
+# exists, and the site builds without errors or warnings, among which are links to
+# pages that do not exist (see layouts/_default/_markup/render-link.html).
+#
+# `make check` and CI run this, and Galley runs it before every commit, showing
+# the end of the output when it fails. It needs Hugo and sh only.
+set -e
+cd "$(dirname "$0")/.."
+status=0
+scripts/check-components || status=1
+scripts/check-images || status=1
+
+out=$(mktemp -d "${TMPDIR:-/tmp}/site-check.XXXXXX")
+trap 'rm -rf "$out"' EXIT
+if ! hugo --destination "$out/public" --logLevel warn >"$out/log" 2>&1; then
+  cat "$out/log"
+  status=1
+elif grep -qE '^(WARN|ERROR)' "$out/log"; then
+  grep -E '^(WARN|ERROR)' "$out/log"
+  echo "The site builds, but with warnings."
+  status=1
+else
+  echo "The site builds."
+fi
+exit $status

@@ -1,12 +1,6 @@
-/* The site's stylesheet. Hugo bundles it with css.Build, which inlines the
-   imports below. Each component's styles live next to its template in
-   components/<name>/<name>.css; add an import here for a new one. */
-@import "components/hero/hero.css";
-@import "components/button-row/button-row.css";
-@import "components/button/button.css";
-@import "components/section/section.css";
-@import "components/image-with-text/image-with-text.css";
-@import "components/faq/faq.css";
+/* The styles the whole site shares. Each component's own styles live next to
+   its template in components/<name>/<name>.css, and the page head bundles
+   them after this file; see layouts/_default/baseof.html. */
 
 :root {
   --color-text: #1f2937;

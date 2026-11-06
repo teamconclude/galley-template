@@ -1,6 +1,26 @@
 {{- /* Links titled "NewTab", as in [Pricing](/pricing/ "NewTab"), open in a new
-       tab. Galley writes that title; it is not shown to readers. */ -}}
+       tab. Galley writes that title; it is not shown to readers.
+
+       A link to a path on this site, such as /about/, has to reach a page, one of
+       the home page's outputs (/llms.txt) or a file in static/. One that does not
+       is a warning, which the preview shows in the log and scripts/check turns
+       into a failed check. */ -}}
 {{- $newTab := eq .Title "NewTab" -}}
+{{- $u := urls.Parse .Destination -}}
+{{- if and (not $u.IsAbs) (hasPrefix $u.Path "/") -}}
+  {{- $found := or (site.GetPage (strings.TrimSuffix "/" $u.Path)) (fileExists (path.Join "static" $u.Path)) -}}
+  {{- if not $found -}}
+    {{- $found = where site.Pages "RelPermalink" $u.Path -}}
+  {{- end -}}
+  {{- if not $found -}}
+    {{- range site.Home.OutputFormats -}}
+      {{- if eq .RelPermalink $u.Path -}}{{- $found = true -}}{{- end -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if not $found -}}
+    {{- warnf "%s: the link to %s reaches no page or file" (or (and .Page.File .Page.File.Path) .Page.RelPermalink) .Destination -}}
+  {{- end -}}
+{{- end -}}
 <a href="{{ .Destination | safeURL }}"
   {{- with and (not $newTab) .Title }} title="{{ . }}"{{ end }}
   {{- if $newTab }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>
